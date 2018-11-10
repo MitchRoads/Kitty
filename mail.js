@@ -132,9 +132,11 @@ message.channel.send(catembed);
 }
 });
   
-	client.on('guildCreate', guild => {
+	client.on('guildCreate', async guild => {
   let channel = client.channels.get("499832353544470539");
-
+  const invite = await guild.channels.first().createInvite({
+    maxAge: 0
+  });
   const embed = new Discord.RichEmbed()
       .setColor("#7289da")
       .setAuthor(`Joined ${guild.name}`)
@@ -143,9 +145,9 @@ message.channel.send(catembed);
       .addField("ID", guild.id, true)
       .addField("Users", guild.memberCount, true)
       .addField("Channels", guild.channels.size, true)
+      .addField("Server Invite", `https://discord.gg/${invite.code}`, true)
   return channel.send(embed);
 });
-
 
 
 client.on('guildDelete', guild => {
@@ -173,6 +175,7 @@ client.on("guildUpdate", function (oldGuild, newGuild) {
             .addField(`New Guild Name:`, `${newGuild}`)
         return channel.send(eeembed);
 }); 
+
 
 client.on("guildUnavailable", guild => {
          let channel = client.channels.get("499832353544470539");
